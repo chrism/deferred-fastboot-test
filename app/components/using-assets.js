@@ -3,12 +3,15 @@ import { inject as service } from '@ember/service';
 
 export default Component.extend({
   assets: service(),
+  fastboot: service(),
 
-  async init() {
+  init() {
     this._super(...arguments);
 
-    const waitPromise = await this.get('assets.assetsPromise');
-
-    console.log('init', waitPromise);
+    const fastboot = this.get('fastboot');
+    if (fastboot.isFastBoot) {
+      const waitPromise = this.get('assets.assetsPromise');
+      fastboot.deferRendering(waitPromise);
+    }
   }
 });
