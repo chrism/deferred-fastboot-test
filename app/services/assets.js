@@ -2,9 +2,21 @@ import Service from '@ember/service';
 import { Promise } from 'rsvp';
 import { computed } from '@ember/object';
 import DS from 'ember-data';
+import { inject as service } from '@ember/service';
 
 export default Service.extend({
   assets: null,
+  fastboot: service(),
+
+  init() {
+    this._super(...arguments);
+
+    const fastboot = this.get('fastboot');
+    if (fastboot.isFastBoot) {
+      const waitPromise = this.get('assetsPromise');
+      fastboot.deferRendering(waitPromise);
+    }
+  },
 
   assetsPromise: computed(function() {
     let promise;
