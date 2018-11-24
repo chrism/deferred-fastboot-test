@@ -1,6 +1,6 @@
 {{title}}:
-{{#if assets.assetsPromise.isFulfilled}}
-  {{assets.assetsPromise.content}}
+{{#if assets.isLoaded}}
+  {{assets.assets}}
 {{else}}
   loading
 {{/if}}
