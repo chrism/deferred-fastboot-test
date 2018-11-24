@@ -1,6 +1,10 @@
 {{title}}:
 {{#if assets.isLoaded}}
-  {{assets.assets}}
+  <ul>
+    {{#each-in assets.assets.assets as |asset fingerprinted|}}
+      <li>{{asset}} {{fingerprinted}}</li>
+    {{/each-in}}
+  </ul>
 {{else}}
   loading
 {{/if}}

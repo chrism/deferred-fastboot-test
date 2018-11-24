@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import { alias } from '@ember/object/computed';
 import { Promise } from 'rsvp';
 import DS from 'ember-data';
+import fetch from 'fetch';
 
 export default Service.extend({
   assets: null,
@@ -24,11 +25,13 @@ export default Service.extend({
       this.set('assets', shoeboxAssets);
       promise = new Promise(resolve => resolve(this.assets));
     } else {
-      promise = new Promise(resolve => {
-        return setTimeout(() => {
-          return resolve("assets");
-        }, 2000);
-      }).then(result => {
+      // promise = new Promise(resolve => {
+      //   return setTimeout(() => {
+      //     return resolve("assets");
+      //   }, 2000);
+      // })
+      promise = this.loadAssetMap()
+      .then(result => {
         if (fastboot.isFastBoot) {
           shoebox.put('assets-store', result);
         }
@@ -39,5 +42,20 @@ export default Service.extend({
 
     this.assetsPromise = DS.PromiseObject.create({ promise });
     if (fastboot.isFastBoot) { fastboot.deferRendering(this.assetsPromise) }
+  },
+
+  loadAssetMap() {
+    let path = '/assets/assetMap.json';
+
+    if (this.fastboot.isFastBoot) {
+      const headers = this.fastboot.request.headers;
+      let host = headers.get('host');
+      // needs http because currently Prember doesn't include protocol
+      path = `http://${host}${path}`;
+    }
+
+    return fetch(path).then(res => {
+      return res.json();
+    });
   }
 });
