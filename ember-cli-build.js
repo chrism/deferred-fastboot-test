@@ -29,8 +29,7 @@ module.exports = function(defaults) {
     },
 
     prember: {
-      enabled: true,
-      urls
+      enabled: true
     }
   });
 

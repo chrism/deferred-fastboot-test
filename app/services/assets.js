@@ -45,7 +45,7 @@ export default Service.extend({
   },
 
   loadAssetMap() {
-    let path = '/assets/example.json';
+    let path = '/assets/assetMap.json';
 
     if (this.fastboot.isFastBoot) {
       const headers = this.fastboot.request.headers;

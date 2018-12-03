@@ -54,5 +54,10 @@
   },
   "dependencies": {
     "chokidar": "^2.0.4"
+  },
+  "ember-addon": {
+    "paths": [
+      "lib/prember-crawler"
+    ]
   }
 }
