@@ -1,12 +1,36 @@
 'use strict';
 
+const chokidar = require('chokidar');
+
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const urls = async function({ distDir, visit }) {
+  const fileAdded = new Promise(resolve => {
+    console.log("waiting for assetMap.json");
+
+    chokidar.watch(distDir, {ignored: /(^|[\/\\])\../}).on('all', (event, path) => {
+      console.log(event, path);
+    });
+    // return setTimeout(() => {
+    //   return resolve();
+    // }, 5000);
+  });
+
+  return fileAdded
+  .then(() => {
+    return ['/'];
+  });
+};
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
     fingerprint: {
       enabled: true,
       generateAssetMap: true
+    },
+
+    prember: {
+      enabled: true,
+      urls
     }
   });
 

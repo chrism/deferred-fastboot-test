@@ -1,0 +1,12 @@
+{
+  "name": "asset-map-generator",
+  "keywords": [
+    "ember-addon"
+  ],
+  "ember-addon": {
+    "before": [
+      "ember-cli-fastboot",
+      "prember"
+    ]
+  }
+}
